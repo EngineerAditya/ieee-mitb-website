@@ -23,8 +23,7 @@ export default function Footer() {
               Inspiring innovation and technology for a better future. Join our community of engineers, researchers, and technologists.
             </p>
             <div className="flex items-center space-x-2 text-xs text-gray-400">
-              <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-              <span>📍 BSF Campus, Yelahanka Airforce Base, Bengaluru</span>
+              <span>📍 BSF Campus, Yelahanka Airforce Base, Bengaluru 560064</span>
             </div>
           </div>
 
@@ -58,7 +57,7 @@ export default function Footer() {
             <p className="text-sm mb-6 text-gray-300">Follow us on social media and stay updated with the latest tech trends.</p>
             <div className="flex flex-col gap-4 mb-6">
               <a
-                href="https://linkedin.com/company/ieee-mit-bengaluru"
+                href="https://www.linkedin.com/company/ieee-mit-bangalore/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="IEEE MIT LinkedIn"
@@ -68,7 +67,7 @@ export default function Footer() {
                 <span className="text-sm">LinkedIn</span>
               </a>
               <a
-                href="https://instagram.com/ieee_mit_bengaluru"
+                href="https://instagram.com/ieee.mitb"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="IEEE MIT Instagram"
@@ -79,12 +78,12 @@ export default function Footer() {
               </a>
             </div>
             <a
-              href="mailto:ieee@mitb.ac.in"
+              href="mailto:ieee.mitblr@manipal.edu"
               aria-label="Email IEEE MIT"
               className="inline-flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors duration-200"
             >
               <FaEnvelope />
-              <span>ieee@mitb.ac.in</span>
+              <span>ieee.mitblr@manipal.edu</span>
             </a>
           </div>
         </div>
