@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { supabase } from "../lib/supabaseClient.js";
 import { EventCard } from "../components/Cards.jsx";
+import { useSearchParams } from "react-router-dom";
 
 export default function Events() {
   // State management
@@ -18,6 +19,38 @@ export default function Events() {
   const [monthFilter, setMonthFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [eventTypeFilter, setEventTypeFilter] = useState("all"); // all, upcoming, past
+  // Read and sync query params so links like /events?society=Name prefill filters
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // On mount / when query changes: if society param exists, set the filter
+  useEffect(() => {
+    const param = searchParams.get("society");
+    if (param) {
+      try {
+        const decoded = decodeURIComponent(param);
+        if (decoded !== societyFilter) setSocietyFilter(decoded);
+      } catch (e) {
+        if (param !== societyFilter) setSocietyFilter(param);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  // Two-way sync: when societyFilter changes, update the URL query param
+  useEffect(() => {
+    const current = searchParams.get("society") || "";
+    if (societyFilter && societyFilter !== current) {
+      const next = new URLSearchParams(searchParams.toString());
+      next.set("society", societyFilter);
+      setSearchParams(next);
+    } else if (!societyFilter && current) {
+      // remove param when filter cleared
+      const next = new URLSearchParams(searchParams.toString());
+      next.delete("society");
+      setSearchParams(next);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [societyFilter]);
 
   // Configuration
   const eventsPerPage = 12;

@@ -1,90 +1,159 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export function EventCard({ event, formatDateTime, isUpcoming }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
-    <div className={`group relative overflow-hidden rounded-3xl transition-all duration-700 hover:scale-[1.03] hover:shadow-2xl ${isUpcoming
-      ? 'bg-gradient-to-br from-sky-900/60 via-blue-900/50 to-indigo-900/60 border border-sky-400/40 shadow-xl shadow-sky-500/20 hover:shadow-sky-500/40'
-      : 'bg-gradient-to-br from-slate-800/60 via-slate-700/50 to-zinc-800/60 border border-slate-500/30 shadow-xl hover:shadow-slate-500/30'
-      }`}>
-      {/* Event Image */}
-      {event.image_url && (
-        <div className="relative h-52 overflow-hidden">
-          <img
-            src={event.image_url}
-            alt={event.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+    <>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen(true)}
+        onKeyPress={() => setOpen(true)}
+        className={`group relative cursor-pointer overflow-hidden rounded-3xl transition-all duration-700 hover:scale-[1.03] hover:shadow-2xl focus:outline-none ${isUpcoming
+          ? 'bg-gradient-to-br from-sky-900/60 via-blue-900/50 to-indigo-900/60 border border-sky-400/40 shadow-xl shadow-sky-500/20 hover:shadow-sky-500/40'
+          : 'bg-gradient-to-br from-slate-800/60 via-slate-700/50 to-zinc-800/60 border border-slate-500/30 shadow-xl hover:shadow-slate-500/30'
+          }`}
+      >
+        {/* Event Image */}
+        {event.image_url && (
+          <div className="relative h-52 overflow-hidden">
+            <img
+              src={event.image_url}
+              alt={event.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-          {/* Society Badge */}
-          <div className="absolute top-4 left-4">
-            <span className="inline-flex items-center px-3 py-2 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-white border border-white/30 shadow-lg">
-              {event.society}
-            </span>
-          </div>
-
-          {/* Upcoming Badge */}
-          {isUpcoming && (
-            <div className="absolute top-4 right-4">
-              <span className="inline-flex items-center px-3 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg">
-                <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                Upcoming
+            {/* Society Badge */}
+            <div className="absolute top-4 left-4">
+              <span className="inline-flex items-center px-3 py-2 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-white border border-white/30 shadow-lg">
+                {event.society}
               </span>
             </div>
-          )}
 
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-sky-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        </div>
-      )}
+            {/* Upcoming Badge */}
+            {isUpcoming && (
+              <div className="absolute top-4 right-4">
+                <span className="inline-flex items-center px-3 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg">
+                  <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                  Upcoming
+                </span>
+              </div>
+            )}
 
-      {/* Event Content */}
-      <div className="p-7">
-        <h3 className="text-xl font-bold text-white mb-4 line-clamp-2 group-hover:text-sky-300 transition-all duration-300 leading-tight">
-          {event.title}
-        </h3>
-
-        {/* Date and Time */}
-        <div className="flex items-center gap-3 mb-4 text-slate-300">
-          <div className="w-8 h-8 rounded-full bg-sky-500/20 flex items-center justify-center">
-            <svg className="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <span className="text-sm font-medium">{formatDateTime(event.date)}</span>
-        </div>
-
-        {/* Venue */}
-        {event.venue && (
-          <div className="flex items-center gap-3 mb-5 text-slate-300">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <span className="text-sm font-medium">{event.venue}</span>
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-sky-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
         )}
 
-        {/* Description */}
-        <p className="text-slate-300 text-sm leading-relaxed line-clamp-3 mb-6">
-          {event.description}
-        </p>
+        {/* Event Content */}
+        <div className="p-7">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-white mb-1 line-clamp-2 group-hover:text-sky-300 transition-all duration-300 leading-tight">
+                {event.title}
+              </h3>
+              <p className="text-xs uppercase text-sky-200/80 font-semibold tracking-wide">{event.society}</p>
+            </div>
+          </div>
 
-        {/* Action Button */}
-        <div className="relative overflow-hidden rounded-2xl">
-          <button className="w-full py-3 px-6 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600 hover:from-sky-600 hover:via-blue-600 hover:to-indigo-700 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-sky-500/25">
-            View Details
-          </button>
-          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+          {/* Date and Time */}
+          <div className="flex items-center gap-3 mb-4 text-slate-300">
+            <div className="w-8 h-8 rounded-full bg-sky-500/20 flex items-center justify-center">
+              <svg className="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <span className="text-sm font-medium">{formatDateTime(event.date)}</span>
+          </div>
+
+          {/* Venue */}
+          {event.venue && (
+            <div className="flex items-center gap-3 mb-5 text-slate-300">
+              <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium">{event.venue}</span>
+            </div>
+          )}
+
+          {/* Description (truncated) */}
+          <p className="text-slate-300 text-sm leading-relaxed line-clamp-3 mb-6">
+            {event.description}
+          </p>
+          {/* removed explicit button - card is clickable and opens a detail modal */}
         </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/5 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/5 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
-    </div>
+      {/* Modal / detail overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
+          onClick={() => setOpen(false)}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+          <div
+            className="relative w-full max-w-3xl rounded-3xl bg-slate-900/95 border border-slate-700/40 shadow-2xl p-8 text-white z-10 transform transition-all duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h2 className="text-2xl font-extrabold mb-2">{event.title}</h2>
+                <p className="text-sm text-sky-200 font-semibold uppercase tracking-wide mb-4">{event.society}</p>
+                <div className="flex items-center gap-4 text-slate-300 mb-4">
+                  <span className="text-sm">{formatDateTime(event.date)}</span>
+                  {event.venue && <span className="text-sm">• {event.venue}</span>}
+                </div>
+              </div>
+              <button
+                aria-label="Close"
+                onClick={() => setOpen(false)}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {event.image_url && (
+              <div className="mt-6 w-full h-56 overflow-hidden rounded-xl">
+                <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
+              </div>
+            )}
+
+            <div className="mt-6 text-slate-200 leading-relaxed">
+              {event.description}
+            </div>
+
+            {event.link && (
+              <div className="mt-6 flex justify-end">
+                <a href={event.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-semibold shadow">
+                  More Info
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
