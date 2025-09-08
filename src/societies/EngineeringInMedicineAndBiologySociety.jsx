@@ -1,8 +1,21 @@
+import React from 'react';
+import SocietiesPage from '../components/SocietiesPage';
+
 export default function EngineeringInMedicineAndBiologySociety() {
+  const students = [
+    { name: 'EMBS Student', role: 'Chair', photo: '', email: 'embs@example.com', linkedin: '' },
+  ];
+  const faculty = [{ name: 'Dr. S. Gupta', title: 'Faculty Advisor', photo: '', email: 'sgupta@college.edu', linkedin: '' }];
+  const contact = { email: 'embs@ieee.example', instagram: '', linkedin: '' };
+
   return (
-    <div className="text-white p-6">
-      <h1 className="text-3xl font-bold mb-4">Engineering in Medicine and Biology Society</h1>
-      <p>Content coming soon...</p>
-    </div>
+    <SocietiesPage
+      title="Engineering in Medicine and Biology Society"
+      logoUrl="/logo.png"
+      about="EMBS aims to foster the application of engineering principles in medicine and biology. Activities include biomedical device projects, guest lectures and hackathons."
+      students={students}
+      faculty={faculty}
+      contact={contact}
+    />
   );
 }

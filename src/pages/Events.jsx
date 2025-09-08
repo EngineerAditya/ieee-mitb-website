@@ -10,7 +10,7 @@ export default function Events() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalEvents, setTotalEvents] = useState(0);
+  const [_totalEvents, setTotalEvents] = useState(0);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,7 +29,8 @@ export default function Events() {
       try {
         const decoded = decodeURIComponent(param);
         if (decoded !== societyFilter) setSocietyFilter(decoded);
-      } catch (e) {
+      } catch (_err) {
+        void _err;
         if (param !== societyFilter) setSocietyFilter(param);
       }
     }
@@ -252,7 +253,7 @@ export default function Events() {
   }, []);
 
   // Check if event is upcoming
-  const isEventUpcoming = useCallback((dateStr) => {
+  const _isEventUpcoming = useCallback((dateStr) => {
     return new Date(dateStr) >= new Date();
   }, []);
 
@@ -449,8 +450,8 @@ export default function Events() {
                 eventTypeFilter === "past" ? "Past Events" : "All Events"}
             </h2>
             <p className="text-slate-400">
-              {totalEvents > 0
-                ? `Showing ${filteredUpcomingEvents.length + filteredPastEvents.length} of ${totalEvents} events`
+              {_totalEvents > 0
+                ? `Showing ${filteredUpcomingEvents.length + filteredPastEvents.length} of ${_totalEvents} events`
                 : "No events found"
               }
             </p>

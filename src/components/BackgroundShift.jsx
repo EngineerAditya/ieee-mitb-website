@@ -22,7 +22,7 @@ class SimplexNoise {
 }
 
 export default function BackgroundShift({ opacity = 1, className = "", style = {} }) {
-  const animationRef = useRef(null);
+  const _animationRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {

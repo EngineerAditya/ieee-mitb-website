@@ -157,6 +157,110 @@ export function EventCard({ event, formatDateTime, isUpcoming }) {
   );
 }
 
+// ===================== ARTICLE CARD =====================
+export function ArticleCard({ article }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
+  return (
+    <>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen(true)}
+        onKeyPress={() => setOpen(true)}
+        className="group relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] cursor-pointer bg-gradient-to-br from-slate-800/60 via-slate-700/50 to-zinc-800/60 border border-slate-500/30 shadow-xl hover:shadow-2xl p-7"
+      >
+        {article.image_url && (
+          <div className="relative h-48 mb-4 overflow-hidden rounded-2xl">
+            <img
+              src={article.image_url}
+              alt={article.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+            <div className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-white/20 text-white backdrop-blur-md rounded-full">
+              {article.society}
+            </div>
+          </div>
+        )}
+
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-300 transition-all">
+          {article.title}
+        </h3>
+        {article.short_description && (
+          <p className="text-slate-300 text-sm mb-3 line-clamp-3">{article.short_description}</p>
+        )}
+        {(article.author || article.publication_details) && (
+          <p className="text-slate-400 text-xs mb-3">
+            {article.author && `By ${article.author}`}
+            {article.author && article.publication_details ? " • " : ""}
+            {article.publication_details}
+          </p>
+        )}
+        {article.date_of_publication && (
+          <p className="text-slate-500 text-xs">
+            {new Date(article.date_of_publication).toLocaleDateString()}
+          </p>
+        )}
+      </div>
+
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8" onClick={() => setOpen(false)}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+          <div
+            className="relative w-full max-w-3xl rounded-3xl bg-slate-900/95 border border-slate-700/40 shadow-2xl p-8 text-white z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-2xl font-extrabold">{article.title}</h2>
+              <button onClick={() => setOpen(false)} className="text-slate-400 hover:text-white">
+                ✕
+              </button>
+            </div>
+            {article.image_url && (
+              <div className="mt-6 w-full h-56 overflow-hidden rounded-xl">
+                <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+              </div>
+            )}
+            <div className="mt-4 text-sky-300 text-sm uppercase">{article.society}</div>
+            <div className="mt-4 text-slate-200 leading-relaxed">
+              {article.short_description}
+            </div>
+            {(article.author || article.publication_details) && (
+              <div className="mt-4 text-slate-400 text-sm">
+                {article.author && `By ${article.author}`}
+                {article.author && article.publication_details ? " • " : ""}
+                {article.publication_details}
+              </div>
+            )}
+            {article.link_url && (
+              <div className="mt-6 flex justify-end">
+                <a
+                  href={article.link_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-semibold shadow"
+                >
+                  Read Full Article
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+
 // Additional card components can be added here for other use cases
 export function InfoCard({ title, description, icon, gradient, onClick }) {
   return (

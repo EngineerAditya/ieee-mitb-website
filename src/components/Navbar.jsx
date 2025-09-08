@@ -25,13 +25,13 @@ export default function Navbar() {
   return (
     <>
       {/* Full width invisible container */}
-      <div className="fixed top-0 left-0 w-full z-50 px-4 pt-4">
+      <div className="fixed top-0 left-0 w-full z-50 px-4 pt-4 backdrop-blur-xl bg-black/10">
         {/* Floating navbar box */}
         <nav className="max-w-6xl mx-auto backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl px-6 py-3 flex justify-between items-center rounded-lg">
           {/* Logo */}
           <div className="logo">
             <Link to="/">
-              <img src="/logo.svg" alt="MIT Bengaluru Logo" className="h-12" />
+              <img src="/logo.png" alt="MIT Bengaluru Logo" className="h-12" />
             </Link>
           </div>
 
@@ -51,44 +51,50 @@ export default function Navbar() {
             <li className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="hover:text-gray-300 transition-colors"
+                aria-expanded={isDropdownOpen}
+                aria-controls="societies-dropdown"
+                className="hover:text-gray-300 transition-colors focus:outline-none"
               >
                 Societies
               </button>
               {isDropdownOpen && (
-                <ul className="absolute top-full mt-2 bg-black/30 backdrop-blur-xl border border-white/20 shadow-2xl rounded-lg w-72">
+                <ul
+                  id="societies-dropdown"
+                  role="menu"
+                  className="absolute left-0 top-full mt-3 bg-black/75 backdrop-blur-xl border border-white/20 shadow-2xl rounded-lg w-80 text-white z-50 overflow-hidden ring-1 ring-white/5"
+                >
                   <li>
-                    <Link to="/societies/antennas-and-propagation" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Antennas and Propagation Society</Link>
+                    <Link to="/societies/antennas-and-propagation" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Antennas and Propagation Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/computer-society" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Computer Society</Link>
+                    <Link to="/societies/computer-society" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Computer Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/computational-intelligence" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Computational Intelligence Society</Link>
+                    <Link to="/societies/computational-intelligence" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Computational Intelligence Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/engineering-in-medicine-and-biology" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Engineering in Medicine and Biology Society</Link>
+                    <Link to="/societies/engineering-in-medicine-and-biology" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Engineering in Medicine and Biology Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/geoscience-and-remote-sensing" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Geoscience and Remote Sensing Society</Link>
+                    <Link to="/societies/geoscience-and-remote-sensing" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Geoscience and Remote Sensing Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/microwave-theory-and-technology" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Microwave Theory and Technology Society</Link>
+                    <Link to="/societies/microwave-theory-and-technology" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Microwave Theory and Technology Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/photonics-society" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Photonics Society</Link>
+                    <Link to="/societies/photonics-society" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Photonics Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/robotics-and-automation" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Robotics and Automation Society</Link>
+                    <Link to="/societies/robotics-and-automation" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Robotics and Automation Society</Link>
                   </li>
                   <li>
-                    <Link to="/societies/vehicular-technology" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Vehicular Technology Society</Link>
+                    <Link to="/societies/vehicular-technology" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Vehicular Technology Society</Link>
                   </li>
 
                   {/* Affinities */}
-                  <li className="px-4 py-2 text-sm text-gray-400 border-t border-white/20">Affinities</li>
+                  <li className="px-4 py-2 text-sm text-gray-300 border-t border-white/10">Affinities</li>
                   <li>
-                    <Link to="/societies/women-in-engineering" onClick={handleLinkClick} className="block px-4 py-2 hover:bg-white/20 transition-colors duration-200">Women in Engineering</Link>
+                    <Link to="/societies/women-in-engineering" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Women in Engineering</Link>
                   </li>
                 </ul>
               )}
@@ -113,10 +119,10 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-2 bg-black/30 backdrop-blur-xl border border-white/20 shadow-2xl rounded-lg p-4 text-white space-y-3">
-            <Link to="/" onClick={handleLinkClick} className="block hover:text-gray-300">Home</Link>
-            <Link to="/about" onClick={handleLinkClick} className="block hover:text-gray-300">About</Link>
-            <Link to="/events" onClick={handleLinkClick} className="block hover:text-gray-300">Events</Link>
+          <div className="md:hidden mt-3 bg-black/75 backdrop-blur-xl border border-white/20 shadow-2xl rounded-lg p-4 text-white space-y-3 z-50 ring-1 ring-white/5 w-full max-w-xs right-6">
+            <Link to="/" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">Home</Link>
+            <Link to="/about" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">About</Link>
+            <Link to="/events" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">Events</Link>
             <details className="group">
               <summary className="cursor-pointer hover:text-gray-300">Societies</summary>
               <div className="ml-4 mt-2 space-y-2">
@@ -133,8 +139,8 @@ export default function Navbar() {
                 <Link to="/societies/women-in-engineering" onClick={handleLinkClick} className="block hover:text-gray-300">Women in Engineering</Link>
               </div>
             </details>
-            <Link to="/membership" onClick={handleLinkClick} className="block hover:text-gray-300">Membership</Link>
-            <Link to="/articles" onClick={handleLinkClick} className="block hover:text-gray-300">Articles</Link>
+            <Link to="/membership" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">Membership</Link>
+            <Link to="/articles" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">Articles</Link>
           </div>
         )}
       </div>

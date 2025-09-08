@@ -1,8 +1,21 @@
-export default function VTS() {
+import React from 'react';
+import SocietiesPage from '../components/SocietiesPage';
+
+export default function VehicularTechnologySociety() {
+  const students = [
+    { name: 'VTS Student', role: 'Chair', photo: '', email: 'vts@example.com', linkedin: '' },
+  ];
+  const faculty = [{ name: 'Dr. N. Verma', title: 'Faculty Advisor', photo: '', email: 'nverma@college.edu', linkedin: '' }];
+  const contact = { email: 'vts@ieee.example', instagram: '', linkedin: '' };
+
   return (
-    <div className="text-white p-6">
-      <h1 className="text-3xl font-bold mb-4">Vehicular Technology Society</h1>
-      <p>Content coming soon...</p>
-    </div>
+    <SocietiesPage
+      title="Vehicular Technology Society"
+      logoUrl="/logo.png"
+      about="VTS explores connected vehicles, V2X communications and smart transportation systems. We collaborate on projects and host technical seminars."
+      students={students}
+      faculty={faculty}
+      contact={contact}
+    />
   );
 }
