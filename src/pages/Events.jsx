@@ -452,7 +452,7 @@ export default function Events() {
             <p className="text-slate-400">
               {_totalEvents > 0
                 ? `Showing ${filteredUpcomingEvents.length + filteredPastEvents.length} of ${_totalEvents} events`
-                : "No events found"
+                : "Wait... We are cooking something!"
               }
             </p>
           </div>

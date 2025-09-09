@@ -21,6 +21,7 @@ import PhotonicsSociety from "./societies/PhotonicsSociety";
 import RoboticsAndAutomationSociety from "./societies/RoboticsAndAutomationSociety";
 import VehicularTechnologySociety from "./societies/VehicularTechnologySociety";
 import WomenInEngineering from "./societies/WomenInEngineering";
+import SocietiesList from "./pages/SocietiesList";
 
 // Export router so App.jsx can use it
 export const router = createBrowserRouter([
@@ -34,7 +35,8 @@ export const router = createBrowserRouter([
       { path: "/membership", element: <Membership /> },
       { path: "/articles", element: <Articles /> },
 
-      // Societies
+  // Societies
+  { path: "/societies-list", element: <SocietiesList /> },
       { path: "/societies/antennas-and-propagation", element: <AntennasAndPropagationSociety /> },
       { path: "/societies/computer-society", element: <ComputerSociety /> },
       { path: "/societies/computational-intelligence", element: <ComputationalIntelligenceSociety /> },

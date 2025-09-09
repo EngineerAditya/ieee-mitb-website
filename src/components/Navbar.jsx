@@ -59,6 +59,9 @@ export default function Navbar() {
                   className="absolute left-0 top-full mt-3 bg-black/75 border border-white/20 shadow-2xl rounded-lg w-80 text-white z-50 overflow-hidden ring-1 ring-white/5"
                 >
                   <li>
+                    <Link to="/societies-list" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm font-semibold text-blue-300">Societies Overview</Link>
+                  </li>
+                  <li>
                     <Link to="/societies/antennas-and-propagation" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Antennas and Propagation Society</Link>
                   </li>
                   <li>
@@ -121,6 +124,7 @@ export default function Navbar() {
             <details className="group">
               <summary className="cursor-pointer hover:text-gray-300">Societies</summary>
               <div className="ml-4 mt-2 space-y-2">
+                <Link to="/societies-list" onClick={handleLinkClick} className="block hover:text-blue-300 font-semibold">Societies Overview</Link>
                 <Link to="/societies/antennas-and-propagation" onClick={handleLinkClick} className="block hover:text-gray-300">Antennas and Propagation Society</Link>
                 <Link to="/societies/computer-society" onClick={handleLinkClick} className="block hover:text-gray-300">Computer Society</Link>
                 <Link to="/societies/computational-intelligence" onClick={handleLinkClick} className="block hover:text-gray-300">Computational Intelligence Society</Link>
