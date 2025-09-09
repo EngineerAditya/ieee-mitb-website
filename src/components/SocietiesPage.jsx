@@ -19,7 +19,7 @@ export default function SocietiesPage({
               {logoUrl ? (
                 <img src={logoUrl} alt={`${title} logo`} className="w-24 h-24 object-contain" />
               ) : (
-                <div className="text-2xl font-semibold text-slate-200">{title.split(' ').slice(0,2).map(t=>t[0]).join('')}</div>
+                <div className="text-2xl font-semibold text-slate-200">{title.split(' ').slice(0, 2).map(t => t[0]).join('')}</div>
               )}
             </div>
 
@@ -62,7 +62,7 @@ export default function SocietiesPage({
                   {s.photo ? (
                     <img src={s.photo} alt={s.name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="text-xl font-medium text-slate-200">{(s.name||'').split(' ').map(p=>p[0]).slice(0,2).join('')}</div>
+                    <div className="text-xl font-medium text-slate-200">{(s.name || '').split(' ').map(p => p[0]).slice(0, 2).join('')}</div>
                   )}
                 </div>
 
@@ -96,7 +96,7 @@ export default function SocietiesPage({
                 <div key={i} className="bg-white/2 border border-white/6 rounded-lg p-4">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center overflow-hidden">
-                      {f.photo ? <img src={f.photo} alt={f.name} className="w-full h-full object-cover" /> : <div className="text-slate-200">{(f.name||'').split(' ').map(p=>p[0]).slice(0,2).join('')}</div>}
+                      {f.photo ? <img src={f.photo} alt={f.name} className="w-full h-full object-cover" /> : <div className="text-slate-200">{(f.name || '').split(' ').map(p => p[0]).slice(0, 2).join('')}</div>}
                     </div>
                     <div>
                       <div className="text-white font-medium">{f.name}</div>

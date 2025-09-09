@@ -1,11 +1,115 @@
-// src/pages/Home.jsx
-import { useEffect, useState, useCallback } from "react";
+
+import { useEffect, useState, useCallback, useRef } from "react";
 import BackgroundShift from "../components/BackgroundShift";
+import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
+import { EventCard } from "../components/Cards";
+
+// Simple scroll animation hook
+function useScrollFadeUp(ref) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new window.IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+  return visible;
+}
+
+function formatDateTime(dateStr) {
+  const dateObj = new Date(dateStr);
+  const datePart = dateObj.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+  const timePart = dateObj.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  return `${datePart} • ${timePart}`;
+}
+
+function isEventUpcoming(dateStr) {
+  return new Date(dateStr) >= new Date();
+}
+
+function DynamicUpcomingEvents() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      setLoading(true);
+      setError(null);
+      try {
+        const today = new Date().toISOString().split("T")[0];
+        const { data, error } = await supabase
+          .from("events")
+          .select("title, description, date, venue, image_url, society")
+          .gte("date", today)
+          .order("date", { ascending: true })
+          .limit(2);
+        if (error) throw error;
+        setEvents(data || []);
+      } catch (err) {
+        setError("Failed to load events.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  if (loading) {
+    return <div className="text-slate-400">Loading events...</div>;
+  }
+  if (error) {
+    return <div className="text-red-400">{error}</div>;
+  }
+  if (!events.length) {
+    return <div className="text-slate-400">No upcoming events found.</div>;
+  }
+  return (
+    <div className="grid md:grid-cols-2 gap-8">
+      {events.map((event, idx) => (
+        <EventCard
+          key={idx}
+          event={event}
+          formatDateTime={formatDateTime}
+          isUpcoming={isEventUpcoming(event.date)}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function Home() {
+  // Section refs for scroll animation (declare first!)
+  const heroRef = useRef(null);
+  const aboutRef = useRef(null);
+  const teamSectionRef = useRef(null);
+  const eventsRef = useRef(null);
+  const ctaRef = useRef(null);
+  const footerAnchorRef = useRef(null);
+
+  // Animation state
+  const heroVisible = useScrollFadeUp(heroRef);
+  const aboutVisible = useScrollFadeUp(aboutRef);
+  const teamVisible = useScrollFadeUp(teamSectionRef);
+  const eventsVisible = useScrollFadeUp(eventsRef);
+  const ctaVisible = useScrollFadeUp(ctaRef);
   const [bgOpacity, setBgOpacity] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
+
+
 
   // Memoized scroll handler
   const handleScroll = useCallback(() => {
@@ -26,6 +130,13 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
+  // Scroll to footer handler
+  const handleContactScroll = useCallback(() => {
+    if (footerAnchorRef.current) {
+      footerAnchorRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-gray-900 text-white">
       {/* Background animation */}
@@ -37,12 +148,12 @@ export default function Home() {
       <div className="relative z-10">
         {/* Hero Section */}
         <section
+          ref={heroRef}
           id="hero-section"
           className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
         >
           <div
-            className={`relative z-10 text-center px-4 -mt-28 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+            className={`relative z-10 text-center px-4 -mt-28 transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             <h1 className="text-6xl md:text-8xl font-extrabold mb-6 leading-tight">
               IEEE MIT
@@ -61,7 +172,11 @@ export default function Home() {
                   Become a Member
                 </button>
               </Link>
-              <button className="px-8 py-3 border border-white/30 hover:border-white/60 text-white rounded-lg font-semibold backdrop-blur-sm transition-all duration-200 transform hover:scale-105 active:scale-95">
+              <button
+                className="px-8 py-3 border border-white/30 hover:border-white/60 text-white rounded-lg font-semibold backdrop-blur-sm transition-all duration-200 transform hover:scale-105 active:scale-95"
+                type="button"
+                onClick={handleContactScroll}
+              >
                 Contact Us
               </button>
             </div>
@@ -80,155 +195,95 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <hr className="border-t border-white/20 my-0" />
+        <hr className="border-t border-white/20 my-0" />
+        <hr className="border-t border-white/20 my-0" />
+        <hr className="border-t border-white/20 my-0" />
+        <hr className="border-t border-white/20 my-0" />
+        <hr className="border-t border-white/20 my-0" />
+        <hr className="border-t border-white/20 my-0" />
 
         {/* About Section */}
-        <section className="relative z-10 py-20 px-6 bg-gray-900">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-12">
+        <section ref={aboutRef} className="relative z-10 py-20 px-6 bg-gray-900">
+          <div className={`transition-all duration-1000 ${aboutVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <div className="max-w-3xl mx-auto text-center">
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">
               About IEEE MIT Bengaluru
             </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Innovation",
-                  text: "Driving technological advancement through cutting-edge research and development initiatives that shape the future.",
-                },
-                {
-                  title: "Community",
-                  text: "Building a strong network of engineers, researchers, and technologists committed to excellence and collaboration.",
-                },
-                {
-                  title: "Impact",
-                  text: "Creating meaningful change in society through technology that improves lives and addresses global challenges.",
-                },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-white/10 transition"
-                >
-                  <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
-                  <p className="text-gray-300">{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Societies Section */}
-        <section className="relative z-10 py-20 px-6 bg-gray-800">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-12">Our Societies</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Computer Society",
-                  text: "Advancing computing and IT through research, education, and professional development.",
-                },
-                {
-                  title: "Robotics & Automation",
-                  text: "Exploring robotics, automation, and intelligent systems for tomorrow's world.",
-                },
-                {
-                  title: "Computational Intelligence",
-                  text: "Developing AI & ML solutions that enhance human capabilities and solve complex problems.",
-                },
-                {
-                  title: "Photonics Society",
-                  text: "Advancing the science and application of light-based technologies for communication and sensing.",
-                },
-                {
-                  title: "Women in Engineering",
-                  text: "Promoting the involvement of women in engineering and inspiring the next generation.",
-                },
-                {
-                  title: "And More...",
-                  text: "Discover all our societies dedicated to various fields of engineering and technology advancement.",
-                },
-              ].map((society, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-white/10 transition"
-                >
-                  <h3 className="text-lg font-semibold mb-2">{society.title}</h3>
-                  <p className="text-gray-300 text-sm">{society.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Events Section */}
-        <section className="relative z-10 py-20 px-6 bg-gray-900">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-12">Upcoming Events</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {[
-                {
-                  title: "Tech Symposium 2025",
-                  date: "March 15, 2025 • 9:00 AM",
-                  badge: "Conference",
-                  badgeColor: "bg-blue-600",
-                  desc: "Join us for a day of presentations, workshops, and networking with industry leaders.",
-                  btn: "Learn More →",
-                  btnColor: "text-blue-400 hover:text-blue-300",
-                },
-                {
-                  title: "AI & ML Workshop",
-                  date: "April 8, 2025 • 2:00 PM",
-                  badge: "Workshop",
-                  badgeColor: "bg-green-600",
-                  desc: "Hands-on workshop exploring the latest AI & ML applications across industries.",
-                  btn: "Register Now →",
-                  btnColor: "text-green-400 hover:text-green-300",
-                },
-              ].map((event, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl text-left"
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold mb-1">{event.title}</h3>
-                      <p className="text-sm text-gray-400">{event.date}</p>
-                    </div>
-                    <span
-                      className={`${event.badgeColor} text-white text-xs px-2 py-1 rounded`}
-                    >
-                      {event.badge}
-                    </span>
-                  </div>
-                  <p className="text-gray-300 mb-4">{event.desc}</p>
-                  <button className={`${event.btnColor} text-sm font-medium`}>
-                    {event.btn}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="relative z-10 py-20 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Ready to Join IEEE MIT Bengaluru?
-            </h2>
-            <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-              Become part of a global community of engineers and technologists
-              working to advance technology for humanity.
+            <p className="text-lg text-gray-300 leading-relaxed">
+              IEEE MIT Bengaluru is dedicated to fostering innovation, building a vibrant community of engineers and technologists, and making a positive impact on society. Through collaborative research, professional development, and outreach, we empower our members to drive technological advancement and address real-world challenges. Join us in our mission to inspire excellence and create meaningful change through technology.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/membership">
-                <button className="px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 active:scale-95">
-                  Become a Member
-                </button>
-              </Link>
-              <button className="px-8 py-3 border border-white/30 hover:border-white/60 text-white rounded-lg font-semibold backdrop-blur-sm transition-all duration-200 transform hover:scale-105 active:scale-95">
-                Contact Us
-              </button>
+          </div>
+        </section>
+
+        {/* Our Team Section */}
+        <section ref={teamSectionRef} className="relative z-10 py-20 px-6 bg-gray-900 border-t border-white/10">
+          <div className={`transition-all duration-1000 ${teamVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8">Our Team</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {[
+                  {
+                    name: "Sampreet",
+                    position: "Chairperson",
+                    img: "/sbPhotos/sampreet.jpeg"
+                  },
+                  {
+                    name: "Harthik",
+                    position: "Vice Chair",
+                    img: "/sbPhotos/harik.jpeg"
+                  },
+                  {
+                    name: "Rosanne",
+                    position: "General Secretary",
+                    img: "/sbPhotos/rosanne.jpeg"
+                  },
+                  {
+                    name: "Siddharth",
+                    position: "Joint Secretary",
+                    img: "/sbPhotos/siddharth.jpeg"
+                  },
+                  {
+                    name: "Mahika",
+                    position: "Treasurer",
+                    img: "/sbPhotos/mahika.jpeg"
+                  }
+                ].map((member, idx) => (
+                  <div key={idx} className="flex flex-col items-center">
+                    <div className="w-full aspect-square bg-white/5 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+                      <img
+                        src={member.img}
+                        alt={member.name}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
+                    <p className="text-gray-400 mb-2">{member.position}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
+        <hr className="border-t border-white/20 my-0" />
+        {/* Events Section - Dynamic */}
+        <section ref={eventsRef} className="relative z-10 py-20 px-6 bg-gray-900">
+          <div className={`transition-all duration-1000 ${eventsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <div className="max-w-6xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-bold mb-12">Upcoming Events</h2>
+              <DynamicUpcomingEvents />
+              <div className="mt-8">
+                <Link to="/events" className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition-all duration-200">
+                  View All Events
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* End of main content - CTA section removed as requested */}
+        <div ref={footerAnchorRef} tabIndex={-1} aria-hidden="true" />
       </div>
     </div>
   );

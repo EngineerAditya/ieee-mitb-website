@@ -11,8 +11,8 @@ export default function Footer() {
           {/* Left Section - IEEE Logo & About */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">I</span>
+              <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+                <img src="/ieee.svg" alt="IEEE Logo" className="w-10 h-10 object-contain" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white">IEEE MIT</h3>
@@ -33,7 +33,6 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               {[
                 { name: "Home", path: "/" },
-                { name: "About", path: "/about" },
                 { name: "Events", path: "/events" },
                 { name: "Articles", path: "/articles" },
                 { name: "Membership", path: "/membership" },

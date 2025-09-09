@@ -3,7 +3,7 @@ import SocietiesPage from '../components/SocietiesPage';
 
 export default function GeoscienceAndRemoteSensingSociety() {
   const students = [
-    { name: 'Sampreet', role: 'Chair', photo: '', email: 'sampreet.byali@iee.org', linkedin: '' }, { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' }, { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' }, { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' }, { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' }, { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' }, { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' },{ name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' },
+    { name: 'GRSS Student', role: 'Chair', photo: '', email: 'grss@example.com', linkedin: '' },
   ];
   const faculty = [{ name: 'Dr. V. Rao', title: 'Faculty Advisor', photo: '', email: 'vrao@college.edu', linkedin: '' }];
   const contact = { email: 'grss@ieee.example', instagram: '', linkedin: '' };

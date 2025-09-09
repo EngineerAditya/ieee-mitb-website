@@ -107,7 +107,7 @@ export function EventCard({ event, formatDateTime, isUpcoming }) {
           className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
           onClick={() => setOpen(false)}
         >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+          <div className="absolute inset-0 bg-black/40 transition-colors duration-300"></div>
 
           <div
             className="relative w-full max-w-3xl rounded-3xl bg-slate-900/95 border border-slate-700/40 shadow-2xl p-8 text-white z-10 transform transition-all duration-300"

@@ -25,7 +25,7 @@ export default function Navbar() {
   return (
     <>
       {/* Full width invisible container */}
-      <div className="fixed top-0 left-0 w-full z-50 px-4 pt-4 backdrop-blur-xl bg-black/10">
+      <div className="fixed top-0 left-0 w-full z-50 px-4 pt-4 bg-black/10">
         {/* Floating navbar box */}
         <nav className="max-w-6xl mx-auto backdrop-blur-xl bg-black/30 border border-white/20 shadow-2xl px-6 py-3 flex justify-between items-center rounded-lg">
           {/* Logo */}
@@ -36,19 +36,14 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-6 text-white">
-            <li>
+          <ul className="hidden md:flex items-center justify-center gap-10 text-white">
+            <li className="flex-1 flex justify-center">
               <Link to="/" className="hover:text-gray-300 transition-colors">Home</Link>
             </li>
-            <li>
-              <Link to="/about" className="hover:text-gray-300 transition-colors">About</Link>
-            </li>
-            <li>
+            <li className="flex-1 flex justify-center">
               <Link to="/events" className="hover:text-gray-300 transition-colors">Events</Link>
             </li>
-
-            {/* Dropdown */}
-            <li className="relative" ref={dropdownRef}>
+            <li className="flex-1 flex justify-center relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 aria-expanded={isDropdownOpen}
@@ -61,7 +56,7 @@ export default function Navbar() {
                 <ul
                   id="societies-dropdown"
                   role="menu"
-                  className="absolute left-0 top-full mt-3 bg-black/75 backdrop-blur-xl border border-white/20 shadow-2xl rounded-lg w-80 text-white z-50 overflow-hidden ring-1 ring-white/5"
+                  className="absolute left-0 top-full mt-3 bg-black/75 border border-white/20 shadow-2xl rounded-lg w-80 text-white z-50 overflow-hidden ring-1 ring-white/5"
                 >
                   <li>
                     <Link to="/societies/antennas-and-propagation" onClick={handleLinkClick} className="block px-4 py-3 hover:bg-white/8 transition-colors duration-200 text-sm">Antennas and Propagation Society</Link>
@@ -119,9 +114,9 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-3 bg-black/75 backdrop-blur-xl border border-white/20 shadow-2xl rounded-lg p-4 text-white space-y-3 z-50 ring-1 ring-white/5 w-full max-w-xs right-6">
+          <div className="md:hidden mt-3 bg-black/75 border border-white/20 shadow-2xl rounded-lg p-4 text-white space-y-3 z-50 ring-1 ring-white/5 w-full max-w-xs right-6">
             <Link to="/" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">Home</Link>
-            <Link to="/about" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">About</Link>
+            {/* About link removed */}
             <Link to="/events" onClick={handleLinkClick} className="block py-2 px-2 hover:bg-white/8 rounded">Events</Link>
             <details className="group">
               <summary className="cursor-pointer hover:text-gray-300">Societies</summary>
