@@ -56,15 +56,22 @@ const societies = [
 export default function SocietiesList() {
   return (
     <div className="min-h-screen bg-gray-900 text-white py-16 px-4 flex justify-center">
-      <div className="max-w-3xl w-full">
+      <div className="max-w-6xl w-full">
         <h1 className="text-4xl md:text-5xl font-bold mb-10 text-center">IEEE Societies</h1>
         <p className="text-lg text-gray-300 mb-10 text-center">
           Explore the diverse technical societies at IEEE MIT Bengaluru. Each society offers unique opportunities for learning, networking, and professional growth.
         </p>
-        <div className="space-y-8">
+
+        {/* Flexbox container */}
+        <div className="flex flex-wrap justify-center gap-8">
           {societies.map((soc, idx) => (
-            <div key={soc.name} className="bg-white/5 rounded-xl p-6 shadow border border-white/10">
-              <h2 className="text-2xl font-semibold mb-2 text-blue-300">{idx + 1}. {soc.name}</h2>
+            <div 
+              key={soc.name} 
+              className="w-72 bg-white/5 rounded-xl p-6 shadow border border-white/10"
+            >
+              <h2 className="text-2xl font-semibold mb-2 text-blue-300">
+                {idx + 1}. {soc.name}
+              </h2>
               <p className="text-gray-200 text-base">{soc.info}</p>
             </div>
           ))}
@@ -73,3 +80,4 @@ export default function SocietiesList() {
     </div>
   );
 }
+
