@@ -1,3 +1,33 @@
+/**
+ * Main Entry Point - Application Setup and Routing Configuration
+ * 
+ * This file is the first JavaScript file that runs when the app loads.
+ * 
+ * Responsibilities:
+ * 1. Import all page components and societies
+ * 2. Define the routing structure (what URL shows what component)
+ * 3. Create the React Router instance
+ * 4. Render the root React component into the DOM
+ * 
+ * Routing Structure:
+ * - Uses createBrowserRouter for client-side routing
+ * - Layout component wraps all pages (provides Navbar, Footer, Background)
+ * - Nested routes under Layout (children array)
+ * - Each route maps a path to a component
+ * 
+ * How to add a new page:
+ * 1. Create component in src/pages/YourPage.jsx
+ * 2. Import it here: import YourPage from './pages/YourPage';
+ * 3. Add route: { path: '/your-page', element: <YourPage /> }
+ * 
+ * Routes:
+ * - / → Home page
+ * - /events → All events with filters
+ * - /membership → IEEE membership info
+ * - /articles → Articles and resources
+ * - /societies-list → Overview of all societies
+ * - /societies/* → Individual society pages (10 different societies)
+ */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -51,6 +81,8 @@ export const router = createBrowserRouter([
   },
 ]);
 
+// Render the root component
+// StrictMode helps catch potential problems during development
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
