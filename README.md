@@ -718,8 +718,8 @@ This is a student branch project. Contributions are welcome!
 
 ## 📞 Contact & Support
 
-- **IEEE MIT Bengaluru**: [website/contact]
-- **Developer**: [Your GitHub Profile]
+- **IEEE MIT Bengaluru**: [https://ieee-mitb-website.vercel.app/]
+- **Developer**: [https://github.com/EngineerAditya]
 - **Issues**: [GitHub Issues](https://github.com/EngineerAditya/ieee-mitb-website/issues)
 
 ## 📄 License
@@ -729,20 +729,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ by IEEE MIT Bengaluru Student Branch**
-
-### Quick Reference for Recruiter Presentations
-
-**"What is this project?"**
-> This is a modern React-based website for the IEEE Student Branch at MIT Bengaluru. It features real-time event management, 10 different technical society showcases, and an animated particle background built with Canvas API.
-
-**"What technologies did you use?"**
-> React 19 for the frontend, Vite for blazing-fast builds, Tailwind CSS for styling, Supabase for database, and React Router for navigation. All deployed with automatic CI/CD.
-
-**"What's technically interesting?"**
-> The animated background uses a custom SimplexNoise algorithm with Canvas API to render 120 particles at 60fps. The event system has advanced filtering with URL synchronization, and everything is fully responsive.
-
-**"How does it work?"**
-> The app starts with a loading screen, then loads all routes via React Router. Events are fetched from Supabase database. Users can filter events by society, date, or search terms. Each society has its own dedicated page with custom content.
-
-**"Can you show me the code?"**
-> [Open this README and walk through the Project Structure section, then demonstrate key files like BackgroundShift.jsx for the animation or Events.jsx for the filtering logic]
