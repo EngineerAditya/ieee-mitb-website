@@ -36,7 +36,7 @@ class SimplexNoise {
    * @param {number} x - X coordinate
    * @param {number} y - Y coordinate  
    * @param {number} z - Z coordinate (often used for animation/time)
-   * @returns {number} Noise value between 0 and 1
+   * @returns {number} Noise value in the range [0, 1] (inclusive on both ends)
    */
   noise3D(x, y, z) {
     let X = Math.floor(x) & 255;

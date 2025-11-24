@@ -159,7 +159,7 @@ User Interface
 
 ### Prerequisites
 
-- **Node.js** (v18 or higher recommended)
+- **Node.js** (v20 LTS or higher recommended)
 - **npm** (comes with Node.js)
 - **Git** (for cloning the repository)
 - **Modern web browser** (Chrome, Firefox, Safari, Edge)
@@ -427,12 +427,9 @@ Footer (bottom links and info)
 
 ### Supabase Configuration
 
-The app connects to a Supabase database for event data. Current configuration in `src/lib/supabaseClient.js`:
+The app connects to a Supabase database for event data. 
 
-```javascript
-const SUPABASE_URL = "https://khihrrhozlwpoedggnfp.supabase.co";
-const SUPABASE_ANON_KEY = "your-anon-key-here";
-```
+**⚠️ Security Best Practice**: The current implementation has database credentials in the source code. For production use, these should be moved to environment variables.
 
 **To use your own Supabase instance**:
 
@@ -451,24 +448,30 @@ const SUPABASE_ANON_KEY = "your-anon-key-here";
    );
    ```
 3. Get your project URL and anon key from Settings > API
-4. Update `src/lib/supabaseClient.js` with your credentials
+4. Create a `.env` file in the project root:
+   ```env
+   VITE_SUPABASE_URL=your-project-url-here
+   VITE_SUPABASE_ANON_KEY=your-anon-key-here
+   ```
+5. Update `src/lib/supabaseClient.js`:
+   ```javascript
+   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+   ```
+6. Add `.env` to `.gitignore` to prevent committing credentials
 
-**Security Note**: The anon key is safe to expose in client-side code. Row-level security policies control data access.
+**Security Note**: The anon key is designed for client-side use. Row-level security (RLS) policies in Supabase control actual data access.
 
-### Environment Variables (Optional)
+### Environment Variables (Recommended Setup)
 
-For better security, create a `.env` file:
+Create a `.env` file in the project root:
 
 ```env
-VITE_SUPABASE_URL=your-project-url
-VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
-Update `supabaseClient.js`:
-```javascript
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-```
+Then update `src/lib/supabaseClient.js` to use these variables instead of hardcoded values.
 
 ## 💻 Development Workflow
 

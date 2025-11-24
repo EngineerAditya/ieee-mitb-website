@@ -42,16 +42,30 @@
  *   .eq('society', 'Computer Society');
  * ```
  * 
- * Security Note:
- * The SUPABASE_ANON_KEY is intentionally exposed in client-side code.
- * Supabase uses Row Level Security (RLS) policies to control data access.
- * For production, consider using environment variables:
- * - VITE_SUPABASE_URL
- * - VITE_SUPABASE_ANON_KEY
+ * ⚠️ SECURITY WARNING:
+ * The credentials below are currently hardcoded in the source code.
+ * For production deployments, you should:
+ * 1. Move these to environment variables (.env file)
+ * 2. Add .env to .gitignore
+ * 3. Use import.meta.env.VITE_SUPABASE_URL and import.meta.env.VITE_SUPABASE_ANON_KEY
+ * 
+ * The SUPABASE_ANON_KEY is designed for client-side use and is safe to expose,
+ * but you should still use environment variables to:
+ * - Make it easier to switch between development/production databases
+ * - Prevent accidental exposure of production credentials
+ * - Follow security best practices
+ * 
+ * Supabase uses Row Level Security (RLS) policies to control actual data access.
  */
 
 // src/lib/supabaseClient.js
 import { createClient } from "@supabase/supabase-js";
+
+// ⚠️ TODO: Move these to environment variables for production
+// Create a .env file with:
+// VITE_SUPABASE_URL=your-url-here
+// VITE_SUPABASE_ANON_KEY=your-key-here
+// Then use: import.meta.env.VITE_SUPABASE_URL
 
 // Supabase project configuration
 const SUPABASE_URL = "https://khihrrhozlwpoedggnfp.supabase.co";
