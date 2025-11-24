@@ -3,8 +3,29 @@ import { supabase } from "../lib/supabaseClient.js";
 import { EventCard } from "../components/Cards.jsx";
 import { useSearchParams } from "react-router-dom";
 
+/**
+ * Events Page Component
+ * 
+ * Displays all IEEE events with comprehensive filtering and pagination.
+ * 
+ * Key Features:
+ * 1. Fetches events from Supabase database
+ * 2. Separates events into upcoming and past
+ * 3. Multiple filter options:
+ *    - Search by title (text search)
+ *    - Filter by society (10 IEEE societies)
+ *    - Filter by year, month, or specific date
+ *    - Filter by event type (all/upcoming/past)
+ * 4. URL-based filtering - filters are synced with URL query parameters
+ *    Example: /events?society=Computer%20Society
+ * 5. Pagination - 12 events per page
+ * 6. Responsive grid layout
+ * 
+ * URL Query Parameters:
+ * - society: Pre-fills the society filter (enables shareable filtered links)
+ */
 export default function Events() {
-  // State management
+  // ============= STATE MANAGEMENT =============
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,9 +40,11 @@ export default function Events() {
   const [monthFilter, setMonthFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [eventTypeFilter, setEventTypeFilter] = useState("all"); // all, upcoming, past
-  // Read and sync query params so links like /events?society=Name prefill filters
+  
+  // URL query parameters for shareable filtered links
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // ============= URL QUERY PARAMETER SYNC =============
   // On mount / when query changes: if society param exists, set the filter
   useEffect(() => {
     const param = searchParams.get("society");
@@ -53,7 +76,7 @@ export default function Events() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [societyFilter]);
 
-  // Configuration
+  // ============= CONFIGURATION =============
   const eventsPerPage = 12;
   const currentYear = new Date().getFullYear();
 
