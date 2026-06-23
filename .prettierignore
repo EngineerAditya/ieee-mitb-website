@@ -1,0 +1,9 @@
+_legacy
+.next
+node_modules
+drizzle
+coverage
+playwright-report
+test-results
+package-lock.json
+*.md

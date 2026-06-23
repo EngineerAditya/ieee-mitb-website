@@ -1,0 +1,356 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Design system — dark premium.
+   Premium near-black canvas, off-white ink, one IEEE-orange accent. Depth is
+   carried by hairline rules and atmospheric orange glow, not heavy shadows.
+   Near-square corners. No emoji, no purple/blue haze — black + orange only.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces — premium blacks, faintly warm */
+  --canvas: #060605; /* the page */
+  --canvas-deep: #0b0b0a; /* recessed band */
+  --surface: #121110; /* raised card */
+  --surface-2: #191816; /* elevated */
+
+  /* Ink */
+  --ink: #f6f4ee; /* primary text, warm off-white */
+  --ink-2: #cbc6bc; /* body copy */
+  --muted: #948f84; /* secondary */
+  --faint: #6c675d; /* meta / tertiary */
+  --disabled: #423f39;
+
+  /* Lines (over black) */
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --line-faint: rgba(255, 255, 255, 0.045);
+
+  /* Accent — IEEE orange */
+  --accent: #ff6a1a;
+  --accent-bright: #ff8a45; /* hover / lighter */
+  --accent-deep: #c24500;
+  --accent-soft: rgba(255, 106, 26, 0.14);
+  --accent-glow: rgba(255, 106, 26, 0.28);
+  --on-accent: #100a05; /* text on an orange surface */
+
+  --radius: 3px;
+  --radius-lg: 4px;
+}
+
+/* Map design tokens onto the shadcn-style utility names the integrated
+   components expect (bg-background, text-foreground, text-muted-foreground,
+   bg-card, border-border, bg-accent …). */
+@theme inline {
+  --color-background: var(--canvas);
+  --color-foreground: var(--ink);
+  --color-muted-foreground: var(--muted);
+  --color-card: var(--surface);
+  --color-border: var(--line-strong);
+  --color-input: var(--line-strong);
+  --color-ring: var(--accent);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--on-accent);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--on-accent);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--ink);
+  --color-destructive: #d6492f;
+  --color-destructive-foreground: #fdeeea;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--canvas);
+  color: var(--ink-2);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.006em;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Display voice — Fraunces serif, regular weight, tight stacking. */
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display), "Times New Roman", ui-serif, serif;
+  font-weight: 400;
+  font-feature-settings: "ss01";
+  letter-spacing: -0.018em;
+  line-height: 1.04;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Hide scrollbar */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 3px;
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--accent);
+}
+.eyebrow.justify-center {
+  justify-content: center;
+}
+
+.kicker {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+/* Quiet inline link — orange underline drawn on hover. */
+.link {
+  color: var(--ink);
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.3s ease;
+}
+.link:hover {
+  background-size: 100% 1px;
+}
+
+/* Buttons — orange primary; hairline ghost. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+  padding: 0.8rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.12s ease,
+    box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+  background: var(--accent-bright);
+  border-color: var(--accent-bright);
+  box-shadow: 0 0 30px -6px var(--accent-glow);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+.btn-primary svg {
+  transition: transform 0.2s ease;
+}
+.btn-primary:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+  padding: 0.8rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.12s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.btn-ghost:active {
+  transform: translateY(1px);
+}
+
+/* Card surface — flat, hairline-bordered, sharp. */
+.card-surface {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+.card-surface:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-2);
+}
+
+.panel,
+.glass,
+.liquid-glass {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+/* Frosted glass — used by the fullscreen navbar overlay. Heavy blur so the
+   page behind is almost fully obscured (~90%) while the menu is open. */
+.glass-panel {
+  background: rgba(6, 6, 5, 0.82);
+  backdrop-filter: blur(48px) saturate(135%);
+  -webkit-backdrop-filter: blur(48px) saturate(135%);
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+.focus-ring:focus,
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--canvas),
+    0 0 0 3px var(--accent);
+}
+
+/* Faint warm baseline grid for hero/section backdrops. */
+.grid-texture {
+  background-image:
+    linear-gradient(var(--line-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-faint) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(
+    ellipse 75% 65% at 50% 35%,
+    #000 30%,
+    transparent 78%
+  );
+}
+
+/* Atmospheric orange wash anchored to a section/hero. */
+.glow-orange {
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 45%,
+    var(--accent-glow),
+    transparent 70%
+  );
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────── */
+
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+.line-rise {
+  display: block;
+  transform: translateY(110%);
+  animation: line-rise 0.9s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+@keyframes line-rise {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee__track {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes loader-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-rise {
+    transform: none;
+    animation: none;
+  }
+  .marquee__track {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
